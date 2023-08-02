@@ -1,23 +1,24 @@
 <template>
   <div class="container mx-auto">
     <ChatBox />
-    <vue-pdf-embed :source="pdfUrl" :width="900" :height="600" />
+    <PdfViewer :pdfUrl="pdfUrl" />
   </div>
 </template>
 
 <script>
-import ChatBox from './components/ChatBox.vue';
-import VuePdfEmbed from 'vue-pdf-embed';
+import ChatBox from '@/components/ChatBox.vue'; // Adjust the path as needed
+import PdfViewer from '@/components/PdfViewer.vue'; // Adjust the path as needed
+
 
 export default {
   name: 'App',
   components: {
     ChatBox,
-    VuePdfEmbed,
+    PdfViewer,
   },
   data() {
     return {
-      pdfUrl: 'https://raw.githubusercontent.com/mozilla/pdf.js/ba2edeae/web/compressed.tracemonkey-pldi-09.pdf',
+      pdfUrl: '',
     };
   },
 };
