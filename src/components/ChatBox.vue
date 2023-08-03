@@ -7,10 +7,13 @@
           <div :class="message.from === 'user' ? 'userMessageWrapper' : 'chatGptMessageWrapper'">
             <div :class="message.from === 'user' ? 'userMessageContent' : 'chatGptMessageContent'">
               {{ message.data }}
+              <button @click="showPDF(message.pdfPath)" v-if="message.pdfPath" class="showPdfButton">Show PDF</button>
+
             </div>
           </div>
         </div>
       </div>
+      
       <div class="inputContainer">
         <input
           v-model="currentMessage"
@@ -63,12 +66,11 @@ export default {
       this.messages.push({
         from: 'chatGpt',
         data: res.answer,
+        pdfPath: res.pdfPath, // Assuming pdfPath is coming from the response
       });
-
-      // Speak the response
-      this.speak(res.answer);
+            // Speak the response
+            this.speak(res.answer);
     },
-
     recordAudio() {
       const recognition = new (window.SpeechRecognition || window.webkitSpeechRecognition)();
       recognition.lang = 'en-US';
@@ -99,6 +101,18 @@ export default {
       window.speechSynthesis.speak(utterance);
     },
   },
+
+  async showPDF(pdfPath) {
+        if (pdfPath) {
+            // Fetch the PDF content
+            const pdfResponse = await fetch(`http://127.0.0.1:5000/${pdfPath}`);
+            const pdfBlob = await pdfResponse.blob();
+            
+            // Create a URL for the blob and display it in the PDF viewer
+            this.$emit('show-pdf', URL.createObjectURL(pdfBlob));
+        }
+    }
+
 };
 </script>
 
