@@ -7,8 +7,6 @@
           <div :class="message.from === 'user' ? 'userMessageWrapper' : 'chatGptMessageWrapper'">
             <div :class="message.from === 'user' ? 'userMessageContent' : 'chatGptMessageContent'">
               {{ message.data }}
-              <button @click="showPDF(message.pdfPath)" v-if="message.pdfPath" class="showPdfButton">Show PDF</button>
-
             </div>
           </div>
         </div>
@@ -102,18 +100,8 @@ export default {
     },
   },
 
-  async showPDF(pdfPath) {
-        if (pdfPath) {
-            // Fetch the PDF content
-            const pdfResponse = await fetch(`http://127.0.0.1:5000/${pdfPath}`);
-            const pdfBlob = await pdfResponse.blob();
-            
-            // Create a URL for the blob and display it in the PDF viewer
-            this.$emit('show-pdf', URL.createObjectURL(pdfBlob));
-        }
-    }
-
 };
+
 </script>
 
 <style scoped>

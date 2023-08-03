@@ -1,7 +1,7 @@
 <template>
   <div class="container mx-auto">
     <ChatBox />
-    <PdfViewer :pdfUrl="pdfUrl" @show-pdf="updatePdfUrl" />
+    <PdfViewer :pdfUrl="pdfUrl" />
   </div>
 </template>
 
@@ -18,15 +18,9 @@ export default {
   },
   data() {
     return {
-      pdfUrl: '',
+      pdfUrl: '/pdfs/Msc.pdf',
     };
   },
-  methods: {
-    // ... other methods
 
-    updatePdfUrl(pdfUrl) {
-        this.pdfUrl = pdfUrl;
-    }
-}
 };
 </script>
