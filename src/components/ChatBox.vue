@@ -8,6 +8,11 @@
             <div :class="message.from === 'user' ? 'userMessageContent' : 'chatGptMessageContent'">
               {{ message.data }}
             </div>
+
+            <div v-if="message.pdfPath" class="showPdfButton">
+               <button @click="showPdf(message.pdfPath)">Show PDF</button>
+            </div>
+            
           </div>
         </div>
       </div>
@@ -61,11 +66,14 @@ export default {
         body: JSON.stringify({ query: message }),
       });
       const res = await response.json();
-      this.messages.push({
-        from: 'chatGpt',
-        data: res.answer,
-        pdfPath: res.pdfPath, // Assuming pdfPath is coming from the response
-      });
+
+      for (const doc of res.source_documents) {
+  this.messages.push({
+    from: 'chatGpt',
+    data: res.answer,
+    pdfPath: doc.pdf_url, // Access pdf_url from the document in source_documents
+  });
+}
             // Speak the response
             this.speak(res.answer);
     },
@@ -98,6 +106,13 @@ export default {
       const utterance = new SpeechSynthesisUtterance(text);
       window.speechSynthesis.speak(utterance);
     },
+
+    showPdf(pdfPath) {
+      console.log('Show PDF button clicked for:', pdfPath);
+      const pdfUrl = `http://127.0.0.1:5000${pdfPath}`;
+      this.$emit('show-pdf', pdfUrl); // Emit event to parent component
+    },
+
   },
 
 };

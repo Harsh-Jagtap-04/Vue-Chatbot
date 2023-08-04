@@ -1,26 +1,34 @@
 <template>
   <div class="container mx-auto">
-    <ChatBox />
-    <PdfViewer :pdfUrl="pdfUrl" />
+
+    <ChatBox @show-pdf="displayPdf" />
+    <PdfApp v-if="pdfVisible" style="height: 90vh" :pdf="pdfUrl"></PdfApp>
   </div>
 </template>
 
 <script>
-import ChatBox from '@/components/ChatBox.vue'; // Adjust the path as needed
-import PdfViewer from '@/components/PdfViewer.vue'; // Adjust the path as needed
-
+import ChatBox from '@/components/ChatBox.vue';
+import PdfApp from "vue3-pdf-app";
+import "vue3-pdf-app/dist/icons/main.css";
 
 export default {
   name: 'App',
   components: {
     ChatBox,
-    PdfViewer,
+    PdfApp,
   },
   data() {
     return {
-      pdfUrl: '/pdfs/Msc.pdf',
+      pdfUrl: '',
+      pdfVisible: false,
     };
   },
-
+  methods: {
+    displayPdf(pdfUrl) {
+      console.log('Received PDF URL:', pdfUrl);
+      this.pdfUrl = pdfUrl;
+      this.pdfVisible = true;
+    },
+  },
 };
 </script>
