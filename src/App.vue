@@ -1,8 +1,11 @@
 <template>
-  <div class="container mx-auto">
-
-    <ChatBox @show-pdf="displayPdf" />
-    <PdfApp v-if="pdfVisible" style="height: 90vh" :pdf="pdfUrl"></PdfApp>
+  <div class="container">
+    <div class="pdf-container">
+      <PdfApp v-if="pdfVisible" style="height: 100%; width: 100%;" :pdf="pdfUrl" />
+    </div>
+    <div class="chatbox-container">
+      <ChatBox @show-pdf="displayPdf" />
+    </div>
   </div>
 </template>
 
@@ -32,3 +35,23 @@ export default {
   },
 };
 </script>
+
+
+
+<style>
+.container {
+  display: flex;
+}
+
+.pdf-container {
+  flex: 70; /* 70% width */
+  height: 100vh; /* 100% viewport height */
+  overflow: auto; /* Add scrollbars if the PDF exceeds the container height */
+}
+
+.chatbox-container {
+  flex: 30; /* 30% width */
+  padding: 20px; /* Add padding as needed */
+  box-sizing: border-box;
+}
+</style>

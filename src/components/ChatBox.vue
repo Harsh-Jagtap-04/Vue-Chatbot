@@ -201,8 +201,8 @@ h1 {
 .chatGptMessageContent {
   background-color: #ededed;
   color: #222;
-  border-top-right-radius: 0;
-  border-bottom-right-radius: 0;
+  border-top-right-radius: 18;
+  border-bottom-left-radius: 0;
 }
 
 .inputContainer {
